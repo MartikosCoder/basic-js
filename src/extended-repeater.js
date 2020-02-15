@@ -1,5 +1,20 @@
-module.exports = function repeater(/* str, options */) {
-    throw 'Not implemented';
-    // remove line with error and write your code here
+const repeater = (
+  str,
+  {
+    repeatTimes,
+    separator = "+",
+    addition = "",
+    additionRepeatTimes,
+    additionSeparator
+  }
+) => {
+  return Array(repeatTimes)
+    .fill(
+      `${str}${Array(additionRepeatTimes)
+        .fill(`${addition}`)
+        .join(additionSeparator)}`
+    )
+    .join(separator);
 };
-  
+
+module.exports = repeater;
