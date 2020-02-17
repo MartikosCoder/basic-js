@@ -1,24 +1,47 @@
 class VigenereCipheringMachine {
-    encrypt(input, key) {
-        if(!input || !key) throw new Error();
+  encrypt(input, key) {
+    if (!input || !key) throw new Error();
 
-        let output = "";
-        const len = input.length;
-	    for (let i = 0, j = 0; i < len; i++) {
-            const c = input.charCodeAt(i);
-		    if ((65 <= c && c <= 90) || (97 <= c && c <= 122)) {
-			    output += String.fromCharCode((c + key[j % key.length]) % 26);
-			    j++;
-		    } else {
-			    output += input[i];
-		    }
-	    }
-	    return output;
-    }
+    const formatted_input = input.toUpperCase().split("");
+    const formatted_key = key.toUpperCase().split("");
 
-    decrypt(input, key) {
-        if(!input || !key) throw new Error();
-    }
+    return formatted_input
+      .map(letter => {
+        const letter_code = letter.charCodeAt(0) - 65;
+        let result = letter;
+
+        if (letter_code >= 0 && letter_code <= 25) {
+          result = String.fromCharCode(
+            ((letter_code + (formatted_key[0].charCodeAt(0) - 65)) % 26) + 65
+          );
+          formatted_key.push(formatted_key.shift());
+        }
+        return result;
+      })
+      .join("");
+  }
+
+  decrypt(input, key) {
+    if (!input || !key) throw new Error();
+
+    const formatted_input = input.split("");
+    const formatted_key = key.toUpperCase().split("");
+
+    return formatted_input
+      .map(letter => {
+        const letter_code = letter.charCodeAt(0) - 65;
+        let result = letter;
+
+        if (letter_code >= 0 && letter_code <= 25) {
+          result = String.fromCharCode(
+            ((letter_code - (formatted_key[0].charCodeAt(0) - 65) + 26) % 26) + 65
+          );
+          formatted_key.push(formatted_key.shift());
+        }
+        return result;
+      })
+      .join("");
+  }
 }
 
 module.exports = VigenereCipheringMachine;
