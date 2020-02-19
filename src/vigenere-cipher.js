@@ -12,7 +12,7 @@ class VigenereCipheringMachine {
 
         if (letter_code >= 0 && letter_code <= 25) {
           result = String.fromCharCode(
-            ((letter_code + (formatted_key[0].charCodeAt(0) - 65)) % 26) + 65
+            (letter_code + formatted_key[0].charCodeAt(0) - 65) % 26 + 65
           );
           formatted_key.push(formatted_key.shift());
         }
